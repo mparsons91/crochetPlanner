@@ -1,9 +1,12 @@
 package com.matthewparsons.hookline.domain.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * The user's request for a generated pattern. All fields except [shape] have
  * sensible defaults derived from [yarn].
  */
+@Serializable
 data class PatternInput(
     val shape: Shape,
     val yarn: YarnWeight,
@@ -19,11 +22,13 @@ data class PatternInput(
  * working stitches and the turning chain. For circles worked from a magic
  * ring, [count] is 0.
  */
+@Serializable
 data class ChainSpec(
     val count: Int,
     val description: String,
 )
 
+@Serializable
 enum class StepKind {
     FOUNDATION,
     ROW,
@@ -37,6 +42,7 @@ enum class StepKind {
  * chain stitches). For ROUNDs in a circle, this is the running total of the
  * round (e.g. 6, 12, 18 …); for ROWs in a rectangle, this is the row width.
  */
+@Serializable
 data class PatternStep(
     val kind: StepKind,
     val number: Int,
@@ -48,6 +54,7 @@ data class PatternStep(
  * Estimated yarn required for a pattern, including a 15% margin for tails and
  * weaving in ends.
  */
+@Serializable
 data class YarnEstimate(
     val yards: Double,
     val metres: Double,
@@ -57,6 +64,7 @@ data class YarnEstimate(
 /**
  * A fully specified, generated pattern ready for display or persistence.
  */
+@Serializable
 data class Pattern(
     val input: PatternInput,
     val startingChain: ChainSpec,

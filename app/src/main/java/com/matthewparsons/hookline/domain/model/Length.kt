@@ -1,5 +1,8 @@
 package com.matthewparsons.hookline.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 enum class LengthUnit {
     INCHES,
     CENTIMETRES;
@@ -15,6 +18,7 @@ enum class LengthUnit {
     }
 }
 
+@Serializable
 data class Length(val value: Double, val unit: LengthUnit) {
     init {
         require(value > 0) { "Length must be positive, was $value $unit" }

@@ -1,5 +1,7 @@
 package com.matthewparsons.hookline.domain.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Stitches-per-inch and rows-per-inch at a given yarn/hook combination.
  *
@@ -7,6 +9,7 @@ package com.matthewparsons.hookline.domain.model
  * (midpoint of each range, then converted to per-inch). Real gauge varies by
  * crocheter; users may override post-MVP.
  */
+@Serializable
 data class Gauge(
     val stitchesPerInch: Double,
     val rowsPerInch: Double,

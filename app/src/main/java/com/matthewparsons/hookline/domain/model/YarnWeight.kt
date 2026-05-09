@@ -1,5 +1,7 @@
 package com.matthewparsons.hookline.domain.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Craft Yarn Council standard yarn weights, 0–7.
  *
@@ -7,6 +9,7 @@ package com.matthewparsons.hookline.domain.model
  * medium (#4) worsted weight, used by the yarn estimator. Values from
  * crochet_context.md §8.
  */
+@Serializable
 enum class YarnWeight(
     val number: Int,
     val displayName: String,

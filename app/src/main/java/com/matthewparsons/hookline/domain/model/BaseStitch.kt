@@ -1,5 +1,7 @@
 package com.matthewparsons.hookline.domain.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * The fundamental stitch a pattern is built from.
  *
@@ -16,6 +18,7 @@ package com.matthewparsons.hookline.domain.model
  *
  * Values from crochet_context.md §3 and §8.
  */
+@Serializable
 enum class BaseStitch(
     val abbreviation: String,
     val displayName: String,
