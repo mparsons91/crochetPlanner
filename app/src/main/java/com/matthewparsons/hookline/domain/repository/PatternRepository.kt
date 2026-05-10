@@ -15,5 +15,11 @@ interface PatternRepository {
     /** Persists [pattern], assigns it an id and timestamp, returns the saved record. */
     suspend fun save(pattern: Pattern): SavedPattern
 
+    /**
+     * Atomically replaces the set of completed step indices for the pattern
+     * with [id]. No-op if no pattern has that id.
+     */
+    suspend fun updateCompletedSteps(id: String, indices: Set<Int>)
+
     suspend fun delete(id: String)
 }

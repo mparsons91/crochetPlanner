@@ -1,6 +1,7 @@
 package com.matthewparsons.hookline.data.repository
 
 import com.matthewparsons.hookline.data.local.PatternDao
+import com.matthewparsons.hookline.data.local.encodeCompletedIndices
 import com.matthewparsons.hookline.data.local.toEntity
 import com.matthewparsons.hookline.data.local.toSavedPattern
 import com.matthewparsons.hookline.domain.model.Pattern
@@ -31,6 +32,18 @@ class PatternRepositoryImpl @Inject constructor(
         )
         dao.upsert(saved.toEntity(json))
         return saved
+    }
+
+    override suspend fun updateCompletedSteps(id: String, indices: Set<Int>) {
+        val saved = dao.getById(id)?.toSavedPattern(json) ?: return
+        val completedStitches = indices.sumOf { idx ->
+            saved.pattern.steps.getOrNull(idx)?.stitchCount ?: 0
+        }
+        dao.updateProgress(
+            id = id,
+            indicesJson = encodeCompletedIndices(indices, json),
+            completedStitches = completedStitches,
+        )
     }
 
     override suspend fun delete(id: String) {

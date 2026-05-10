@@ -18,6 +18,12 @@ interface PatternDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(entity: PatternEntity)
 
+    @Query(
+        "UPDATE patterns SET completedStepIndicesJson = :indicesJson, " +
+            "completedStitchCount = :completedStitches WHERE id = :id"
+    )
+    suspend fun updateProgress(id: String, indicesJson: String, completedStitches: Int)
+
     @Query("DELETE FROM patterns WHERE id = :id")
     suspend fun delete(id: String)
 }

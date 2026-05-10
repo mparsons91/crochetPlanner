@@ -33,10 +33,21 @@ class PatternDetailViewModel @Inject constructor(
     val state: StateFlow<PatternDetailUiState> = _state.asStateFlow()
 
     init {
+        viewModelScope.launch { reload() }
+    }
+
+    fun toggleStep(index: Int) {
+        val current = _state.value as? PatternDetailUiState.Loaded ?: return
+        val saved = current.saved
+        val newIndices = if (index in saved.completedStepIndices) {
+            saved.completedStepIndices - index
+        } else {
+            saved.completedStepIndices + index
+        }
+        // Optimistic local update so the UI reacts immediately.
+        _state.value = PatternDetailUiState.Loaded(saved.copy(completedStepIndices = newIndices))
         viewModelScope.launch {
-            val saved = repository.getById(id)
-            _state.value = saved?.let(PatternDetailUiState::Loaded)
-                ?: PatternDetailUiState.NotFound
+            repository.updateCompletedSteps(saved.id, newIndices)
         }
     }
 
@@ -45,5 +56,10 @@ class PatternDetailViewModel @Inject constructor(
             repository.delete(id)
             onComplete()
         }
+    }
+
+    private suspend fun reload() {
+        val saved = repository.getById(id)
+        _state.value = saved?.let(PatternDetailUiState::Loaded) ?: PatternDetailUiState.NotFound
     }
 }

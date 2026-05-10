@@ -18,4 +18,7 @@ data class PatternEntity(
     val yarnNumber: Int,
     val totalBaseStitches: Int,
     val estimatedYards: Double,
+    val completedStepIndicesJson: String,
+    val completedStitchCount: Int,
+    val stepCount: Int,
 )

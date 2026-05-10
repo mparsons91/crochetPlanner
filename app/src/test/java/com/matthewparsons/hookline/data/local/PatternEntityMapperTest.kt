@@ -86,4 +86,28 @@ class PatternEntityMapperTest {
 
         assertThat(restored).isEqualTo(original)
     }
+
+    @Test
+    fun `completed step indices survive round-trip`() {
+        val base = savedPattern(Shape.Circle(Length.inches(4.0)))
+        val original = base.copy(completedStepIndices = setOf(0, 2, 4))
+
+        val restored = original.toEntity(json).toSavedPattern(json)
+
+        assertThat(restored).isEqualTo(original)
+        assertThat(restored.completedStepIndices).containsExactly(0, 2, 4)
+    }
+
+    @Test
+    fun `entity completedStitchCount denormalizes domain calculation`() {
+        val base = savedPattern(Shape.Circle(Length.inches(4.0)))
+        // Mark round indices 1 and 2 (the first two ROUND steps after foundation).
+        val saved = base.copy(completedStepIndices = setOf(1, 2))
+
+        val entity = saved.toEntity(json)
+
+        val expected = saved.pattern.steps[1].stitchCount +
+            saved.pattern.steps[2].stitchCount
+        assertThat(entity.completedStitchCount).isEqualTo(expected)
+    }
 }
