@@ -18,6 +18,9 @@ Visualization of the worked piece is a **stretch goal**, not part of the MVP.
 
 ## Key documents
 
+- `README.md` – contributor-facing quickstart: prerequisites, Firebase setup,
+  build/run/test commands, project layout. Update when those mechanics
+  change.
 - `crochet_context.md` – distilled crochet domain knowledge: stitches, yarn
   weights, hook size chart, pattern notation, shape recipes, and yarn-length
   estimation formulas. Read this before touching anything in the pattern
